@@ -1,22 +1,28 @@
-import React from 'react'
-import { Box, Flex, Image, Link, Spacer } from '@chakra-ui/react'
-import Facebook from './assets/social-media-icons/facebook_32x32.png'
-import Twitter from './assets/social-media-icons/twitter_32x32.png'
-import Email from './assets/social-media-icons/email_32x32.png'
-import { Button } from '@chakra-ui/react'
+import React from "react";
+import { Box, Flex, Image, Link, Spacer } from "@chakra-ui/react";
+import Facebook from "./assets/social-media-icons/facebook_32x32.png";
+import Twitter from "./assets/social-media-icons/twitter_32x32.png";
+import Email from "./assets/social-media-icons/email_32x32.png";
+import { Button } from "@chakra-ui/react";
 
 const Navbar = ({ accounts, setAccounts }) => {
   const isConnected = Boolean(accounts[0]);
 
   // TODO: 連接錢包
   async function connectAccount() {
-
+    if (window.ethereum) {
+      const currentAccount = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setAccounts((prev) => [...prev, currentAccount]);
+    }
   }
 
   return (
     <Flex
       className="navbar flex-row"
-      justify="space-between" align="center"
+      justify="space-between"
+      align="center"
       direction="row"
     >
       {/* Left Side - Social Media Icons */}
@@ -41,11 +47,17 @@ const Navbar = ({ accounts, setAccounts }) => {
         // width="40%"
         padding="30px"
       >
-        <Box margin="0 15px" className="items">About</Box>
+        <Box margin="0 15px" className="items">
+          About
+        </Box>
         <Spacer />
-        <Box margin="0 15px" className="items">Mint</Box>
+        <Box margin="0 15px" className="items">
+          Mint
+        </Box>
         <Spacer />
-        <Box margin="0 15px" className="items">Team</Box>
+        <Box margin="0 15px" className="items">
+          Team
+        </Box>
         <Spacer />
 
         {/* Connect */}
@@ -62,15 +74,14 @@ const Navbar = ({ accounts, setAccounts }) => {
             padding="15px"
             margin="0 15px"
             onClick={connectAccount}
-            colorScheme='yellow'
+            colorScheme="yellow"
           >
             Connect
           </Button>
         )}
       </Flex>
-
     </Flex>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
